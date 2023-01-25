@@ -1,0 +1,78 @@
+h1{
+    text-align: center;
+    margin-block: 2rem;
+}
+
+
+/*Formulaire de recherche  */
+.recherche{
+    margin-block: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+
+
+}
+
+.recherche input[type="text"]{
+    width : max(80vw,18rem);
+    height : 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding-inline-start: 1rem;
+}
+
+.recherche .submit{
+    height: 3rem;
+    border-radius: 10px;
+    border: 2px black solid;
+    padding-inline: 1.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+/* Contenaire des produits  */
+.produit__container{
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+    place-items: center;
+    gap: 2rem;
+}
+
+/*Carte qui contient les infos du produit  */
+.produit{
+    border-radius: 10px;
+    border: 2px solid rgb(38, 35, 47);
+    box-shadow: 3px 1px 8px -1px rgb(38, 35, 47);
+    height: 15rem;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+
+}
+
+.produit div{
+    height: 2rem;
+    display: flex;
+    flex-direction: row ;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(80, 80, 247, 0.236);
+    padding-inline: 0.5rem;
+}
+
+.produit .produit__link{
+    width: 180px;
+}

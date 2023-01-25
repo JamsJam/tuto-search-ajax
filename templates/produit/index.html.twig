@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    <h1>Recherche d'un produit</h1>
+
+        {#! Formulaire de recherche  #}
+        <div class="recherche">
+
+            <bouton type="bouton" class="submit" id="submit">rechercher</bouton>
+            <input type="text" name="search" id="search" placeholder="recherche ajax...">
+
+        </div>
+        
+        {#! display grid  #}
+        <div class="produit__container">
+            {% for produit in produits %}
+
+                {#!carte produit  #}
+                <div class="produit" id="{{produit.id}}">
+                    
+                    <div class="produit__nom">{{ produit.nom }}</div>
+
+                    <div class="produit__categorie">{{ produit.categorie.nom }}</div>
+
+                    <div class="produit__prix">{{ produit.prix }} €</div>
+
+                    <div class="produit__link">
+                        <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+                        <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                    </div>
+
+                </div>
+            
+
+            {% else %}
+                <div class="produit__404">
+                    Aucun produit trouvé
+                </div>
+            {% endfor %}
+        </div>
+
+
+    {# <a href="{{ path('app_produit_new') }}">Create new</a> #}
+{% endblock %}
+{% block js %}
+    <script>
+        let submit = document.querySelector("#submit")
+        let search = document.querySelector("#search")
+        let host = window.location.host
+        let cards = document.querySelectorAll(".produit")
+
+        {#! fetch recuperer les id sur : app_searchJson_projet  #}
+        async function projetSearch(
+                                    valeur 
+                                ) 
+            {
+            if(!valeur){
+                cards.forEach(card => {
+                    card.removeAttribute("style")
+                });
+            }
+            else
+            {
+                const requete = await fetch( `http://${host}/api/produit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams ({
+                        search : valeur
+                    })
+                });
+                if (!requete.ok) {
+                    alert('une erreur est survenue')
+                } else {
+                    const donnees = await requete.json()
+                    console.log(donnees);
+                    let resultId = []
+                        for (const searchResult of donnees) {
+                            resultId.push(searchResult.id )
+                        }
+                    
+                    cards.forEach(card => {
+                        let id = card.getAttribute('id')
+                        
+                        if(! resultId.includes(+id)){
+                            card.style.display = "none"
+                        }else{
+                            card.removeAttribute("style")
+                        }
+                    });
+                }
+            }
+
+        }
+
+
+        submit.addEventListener('click',() => {
+            let query = search.value
+            projetSearch(query)
+
+        })
+    </script>
+{% endblock %}
+
